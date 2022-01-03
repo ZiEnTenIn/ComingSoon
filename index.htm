@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <style>
+        #timer > span {
+            font-family: 'Courier Prime', monospace;
+            font-size: 124px;
+        }
+    </style>
+
+    <meta charset="utf-8" />
+    <!-- кодировка сайта по умолчанию -->
+    <meta name="description" content="Countdown to New Year" />
+    <!-- описание сайта, которое будет выводится в браузере -->
+    <meta name="keywords" content="Coming Soon, New Year, Countdown to New Year" />
+    <!-- ключевые слова, по которым будет осуществляться поиск сайта -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+    <!-- для нормальной работы адаптива -->
+    <meta name="theme-color" content="white" />
+    <!-- светлая//темная тема сайта для chrome по умолчанию -->
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=Manrope:wght@300&family=Comfortaa:wght@400&family=Courier+Prime:ital@1&&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="reset.css" type="text/css">
+
+    <title>Coming Soon</title>
+</head>
+<body style="display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;">
+    <div id="title" style="color: #333333; font-family: 'Comfortaa', cursive; font-size: 84px; font-weight: 300;"></div>
+    <div id="timer" style="color: #232323; font-family: 'Manrope', sans-serif; font-size: 64px;"></div>
+    <script>
+        var year = 2000;
+        function newYearIn() {
+            var now = new Date();
+            var newYear = new Date("Jan,01,"+year+",00:00:00");
+            var totalRemains = (newYear.getTime()-now.getTime());
+            if (totalRemains>1) {
+                var RemainsSec=(parseInt(totalRemains/1000));
+                var RemainsFullDays=(parseInt(RemainsSec/(24*60*60)));
+                var secInLastDay=RemainsSec-RemainsFullDays*24*3600;
+                var RemainsFullHours=(parseInt(secInLastDay/3600));
+                if (RemainsFullHours<10){RemainsFullHours="0"+RemainsFullHours};
+                var secInLastHour=secInLastDay-RemainsFullHours*3600;
+                var RemainsMinutes=(parseInt(secInLastHour/60));
+                if (RemainsMinutes<10){RemainsMinutes="0"+RemainsMinutes};
+                var lastSec=secInLastHour-RemainsMinutes*60;
+                if (lastSec<10){lastSec="0"+lastSec};
+
+                if(RemainsFullDays == 1) {
+                    document.getElementById('title').innerHTML = "It's coming..."
+                }
+                else if(RemainsFullDays == 0) {
+                    document.getElementById('title').innerHTML = "С Наступающим!"
+                    if(RemainsFullHours == 0 ) {
+                        document.getElementById('title').innerHTML = "Последний час..."
+                        if(RemainsMinutes <= 30) {
+                            document.getElementById('title').innerHTML = "Осталось пол часа..."
+                        }
+                        if(RemainsMinutes <= 5) {
+                            document.getElementById('title').innerHTML = "Мы пережили это!"
+                        }
+                        if(RemainsMinutes <= 1) {
+                            document.getElementById('title').innerHTML = "С Новым Годом!"
+                        }
+                    }
+                }
+                else if(now.getMonth() == 0 && now.getDate() <= 3) {
+                    document.getElementById('title').innerHTML = "С Новым Годом!"
+                }
+                else if((now.getMonth() == 0) && (now.getDate() == 7)) {
+                    document.getElementById('title').innerHTML = "С Рождеством!"
+                }
+                else {
+                    document.getElementById('title').innerHTML = "Coming Soon..."
+                }
+
+
+                document.getElementById('timer').innerHTML = "<span>"+RemainsFullDays+"</span>d <span>"+RemainsFullHours+"</span>h <span>"+RemainsMinutes+"</span>m <span>"+lastSec+"</span>s";
+                setTimeout("newYearIn()",10);
+            } 
+            else {
+                year++;
+                newYearIn();
+            }
+        }
+
+        newYearIn();
+    </script>
+</body>
+</html>
